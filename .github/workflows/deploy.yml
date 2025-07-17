@@ -1,40 +1,30 @@
 name: Docker Image CI
 
-on:
-  push:
-    branches: ["main"]
+on: [pull_request]
+  # push:
+  #   tags:
+  #     - "v*.*.*"
 
 jobs:
-  build-and-push-image:
-    runs-on: ubuntu-latest
-
+  build-release:
     permissions:
       packages: write
 
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.2.2
+      - name: Ensure musl installed
+        run: sudo apt-get install -y musl-dev musl-tools musl && rustup target add x86_64-unknown-linux-musl aarch64-unknown-linux-musl && cargo install cross
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - name: Build final release binary
+        run: ./scripts/release
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3.4.0
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3.6.0
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3.11.1
-
-      - name: Build and push
-        uses: docker/build-push-action@v6.18.0
-        with:
-          context: .
-          push: true
-          file: Dockerfile
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ghcr.io/isawan/terrashine:latest
-            ghcr.io/isawan/terrashine:${{github.sha}}
+          draft: true
+          name: Test-release
+          files: |
+            target/x86_64-unknown-linux-musl/release/terrashine
+            target/aarch64-unknown-linux-musl/release/terrashine
+            LICENSE
