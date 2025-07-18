@@ -29,6 +29,6 @@ jobs:
           draft: true
           name: Test-release
           files: |
-            target/x86_64-unknown-linux-musl/release/terrashine
-            target/aarch64-unknown-linux-musl/release/terrashine
+            release/x86_64-unknown-linux-musl
+            release/aarch64-unknown-linux-musl
             LICENSE
