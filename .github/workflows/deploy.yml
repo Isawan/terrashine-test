@@ -1,9 +1,9 @@
 name: Release
 
-on: [pull_request]
-  # push:
-  #   tags:
-  #     - "v*.*.*"
+on:
+  push:
+    tags:
+      - "v*.*.*"
 
 jobs:
   build-release:
