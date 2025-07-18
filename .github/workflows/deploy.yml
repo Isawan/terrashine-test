@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Release
 
 on: [pull_request]
   # push:
@@ -17,7 +17,10 @@ jobs:
         run: sudo apt-get install -y musl-dev musl-tools musl && rustup target add x86_64-unknown-linux-musl aarch64-unknown-linux-musl && cargo install cross
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
       - name: Build final release binary
-        run: ./scripts/release
+        #run: ./scripts/release
+        run: |
+          mkdir -p target/x86_64-unknown-linux-musl/release/ target/aarch64-unknown-linux-musl/release/;
+          touch target/x86_64-unknown-linux-musl/release/terrashine target/aarch64-unknown-linux-musl/release/terrashine;
 
       - name: Release
         uses: softprops/action-gh-release@v2
