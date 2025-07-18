@@ -19,8 +19,9 @@ jobs:
       - name: Build final release binary
         #run: ./scripts/release
         run: |
-          mkdir -p target/x86_64-unknown-linux-musl/release/ target/aarch64-unknown-linux-musl/release/;
-          touch target/x86_64-unknown-linux-musl/release/terrashine target/aarch64-unknown-linux-musl/release/terrashine;
+          mkdir -p target/x86_64-unknown-linux-musl/release/ target/aarch64-unknown-linux-musl/release/ ;
+          echo "mooo" > target/x86_64-unknown-linux-musl/release/terrashine ;
+          echo "mooo" > target/aarch64-unknown-linux-musl/release/terrashine ;
 
       - name: Release
         uses: softprops/action-gh-release@v2
