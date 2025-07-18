@@ -19,9 +19,9 @@ jobs:
       - name: Build final release binary
         #run: ./scripts/release
         run: |
-          mkdir -p target/x86_64-unknown-linux-musl/release/ target/aarch64-unknown-linux-musl/release/ ;
-          echo "mooo" > target/x86_64-unknown-linux-musl/release/terrashine ;
-          echo "mooo" > target/aarch64-unknown-linux-musl/release/terrashine ;
+          mkdir -p release/terrashine-x86_64-unknown-linux-musl/ release/terrashine-aarch64-unknown-linux-musl/ ;
+          echo "mooo" > release/terrashine-x86_64-unknown-linux-musl/terrashine ;
+          echo "mooo" > release/terrashine-aarch64-unknown-linux-musl/terrashine ;
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -29,6 +29,6 @@ jobs:
           draft: true
           name: Test-release
           files: |
-            release/x86_64-unknown-linux-musl
-            release/aarch64-unknown-linux-musl
+            terrashine-x86_64-unknown-linux-musl.tar.gz
+            terrashine-aarch64-unknown-linux-musl.tar.gz
             LICENSE
